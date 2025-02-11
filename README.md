@@ -1,3 +1,3 @@
 ## Winicons
 
-The windows icons app
+The windows icon app
