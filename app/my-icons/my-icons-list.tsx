@@ -17,24 +17,51 @@ interface Icon {
   id: string;
   name: string;
   description: string;
-  category: string;
+  category_id: string;
   file_url: string;
   created_at: string;
   user_id: string;
+  category: {
+    name: string;
+  };
+}
+
+interface Category {
+  id: string;
+  name: string;
 }
 
 export default function MyIconsList({ userId }: MyIconsListProps) {
   const [icons, setIcons] = useState<Icon[] | null>(null);
+  const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [editingIcon, setEditingIcon] = useState<Icon | null>(null);
   const [editForm, setEditForm] = useState({
     name: "",
     description: "",
-    category: "",
+    category_id: "",
   });
 
   const supabase = createClient();
+
+  useEffect(() => {
+    const getCategories = async () => {
+      try {
+        const { data, error } = await supabase
+          .from("categories")
+          .select("id, name")
+          .order("name");
+
+        if (error) throw error;
+        setCategories(data || []);
+      } catch (err) {
+        console.error("Error al cargar categorías:", err);
+      }
+    };
+
+    getCategories();
+  }, []);
 
   useEffect(() => {
     const getMyIcons = async () => {
@@ -42,7 +69,14 @@ export default function MyIconsList({ userId }: MyIconsListProps) {
         // Realiza la consulta a la tabla 'icons' en Supabase filtrando por user_id
         const { data, error } = await supabase
           .from("icons")
-          .select("*")
+          .select(
+            `
+            *,
+            category:category_id (
+              name
+            )
+          `
+          )
           .eq("user_id", userId);
 
         if (error) throw new Error(error.message);
@@ -86,7 +120,7 @@ export default function MyIconsList({ userId }: MyIconsListProps) {
     setEditForm({
       name: icon.name,
       description: icon.description || "",
-      category: icon.category || "",
+      category_id: icon.category_id,
     });
   };
 
@@ -99,7 +133,7 @@ export default function MyIconsList({ userId }: MyIconsListProps) {
         .update({
           name: editForm.name,
           description: editForm.description,
-          category: editForm.category,
+          category_id: editForm.category_id,
         })
         .eq("id", editingIcon.id);
 
@@ -114,7 +148,10 @@ export default function MyIconsList({ userId }: MyIconsListProps) {
                 ...icon,
                 name: editForm.name,
                 description: editForm.description,
-                category: editForm.category,
+                category_id: editForm.category_id,
+                category:
+                  categories.find((c) => c.id === editForm.category_id) ||
+                  icon.category,
               }
             : icon
         );
@@ -204,7 +241,7 @@ export default function MyIconsList({ userId }: MyIconsListProps) {
             {icon.description || "Sin descripción"}
           </p>
           <p className="text-xs text-gray-500 dark:text-gray-500 text-center mb-3">
-            {icon.category || "Sin categoría"}
+            {icon.category?.name || "Sin categoría"}
           </p>
           <div className="flex justify-center">
             <Button
@@ -254,13 +291,21 @@ export default function MyIconsList({ userId }: MyIconsListProps) {
 
                 <div className="space-y-2">
                   <Label htmlFor="edit-category">Categoría</Label>
-                  <Input
+                  <select
                     id="edit-category"
-                    value={editForm.category}
+                    value={editForm.category_id}
                     onChange={(e) =>
-                      setEditForm({ ...editForm, category: e.target.value })
+                      setEditForm({ ...editForm, category_id: e.target.value })
                     }
-                  />
+                    className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                  >
+                    <option value="">Selecciona una categoría</option>
+                    {categories.map((category) => (
+                      <option key={category.id} value={category.id}>
+                        {category.name}
+                      </option>
+                    ))}
+                  </select>
                 </div>
 
                 <div className="space-y-2">

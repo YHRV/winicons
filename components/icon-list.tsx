@@ -14,16 +14,21 @@ export default function IconList() {
   useEffect(() => {
     const getIcons = async () => {
       try {
-        // Realiza la consulta a la tabla 'icons' en Supabase
-        const { data, error } = await supabase.from("icons").select();
+        // Realiza la consulta a la tabla 'icons' en Supabase incluyendo la información de la categoría
+        const { data, error } = await supabase.from("icons").select(`
+            *,
+            category:category_id (
+              name
+            )
+          `);
 
         if (error) throw new Error(error.message);
 
         // Actualiza el estado con los datos obtenidos
         setIcons(data);
-        setLoading(false); // Finaliza el estado de carga
+        setLoading(false);
       } catch (err: any) {
-        setError(err.message); // Captura errores si los hay
+        setError(err.message);
         setLoading(false);
       }
     };
@@ -136,7 +141,7 @@ export default function IconList() {
                             Categoría
                           </h4>
                           <p className="text-gray-900 dark:text-gray-100">
-                            {icon.category || "Sin categoría"}
+                            {icon.category?.name || "Sin categoría"}
                           </p>
                         </div>
 
