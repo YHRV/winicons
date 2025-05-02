@@ -33,7 +33,7 @@ export default function IconList() {
 
   const handleDownload = async (icon: any) => {
     try {
-      const response = await fetch(icon);
+      const response = await fetch(icon.file_url);
       const blob = await response.blob();
 
       const downloadUrl = window.URL.createObjectURL(blob);
@@ -68,7 +68,7 @@ export default function IconList() {
           <div key={icon.id}>
             <AlertDialog.Root>
               <AlertDialog.Trigger asChild>
-                <div className="border rounded-lg p-4 hover:shadow-lg transition-shadow cursor-pointer">
+                <div className="border rounded-lg p-4 hover:shadow-lg transition-shadow cursor-pointer h-48 flex flex-col items-center justify-between">
                   <img
                     src={icon.file_url}
                     alt={icon.name}
