@@ -7,6 +7,7 @@ import { Geist } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import Link from "next/link";
 import { Toaster } from "sonner";
+import Image from "next/image";
 import "./globals.css";
 
 const defaultUrl = process.env.VERCEL_URL
@@ -17,6 +18,10 @@ export const metadata = {
   metadataBase: new URL(defaultUrl),
   title: "winicons",
   description: "The windows icons collection",
+  icons: {
+    icon: [{ url: "/favicon.ico" }, { url: "/icon.png", type: "image/png" }],
+    apple: [{ url: "/apple-icon.png" }],
+  },
 };
 
 const geistSans = Geist({
@@ -43,7 +48,18 @@ export default function RootLayout({
               <nav className="w-full flex justify-center border-b border-b-foreground/10 h-16">
                 <div className="w-full max-w-5xl flex justify-between items-center p-3 px-5 text-sm">
                   <div className="flex gap-5 items-center font-semibold">
-                    <Link className="text-2xl" href={"/"}>
+                    <Link
+                      className="text-2xl flex items-center gap-2 hover:opacity-80 transition-opacity"
+                      href={"/"}
+                    >
+                      <Image
+                        src="/icon.png"
+                        alt="winicons logo"
+                        width={32}
+                        height={32}
+                        className="rounded-md"
+                        priority
+                      />
                       winicons
                     </Link>
                     {/*
@@ -58,13 +74,14 @@ export default function RootLayout({
                   </div>
                 </div>
               </nav>
-              <div className="flex flex-col gap-14 max-w-5xl p-5">
-                {children}
-              </div>
-
-              <footer className="w-full flex items-center justify-center border-t mx-auto text-center text-xs gap-8 py-16"></footer>
+              <div className="flex flex-col gap-14 max-w-8xl ">{children}</div>
             </div>
           </main>
+          <footer className="w-full flex items-center justify-center border-t mx-auto text-center text-xs gap-8 py-16">
+            <p>
+              &copy; {new Date().getFullYear()} winicons. All rights reserved.
+            </p>
+          </footer>
           <Toaster position="top-right" />
         </ThemeProvider>
       </body>

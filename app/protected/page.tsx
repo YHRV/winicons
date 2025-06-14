@@ -160,11 +160,6 @@ function UploadForm() {
   return (
     <div className="flex-1 w-full flex flex-col gap-12 p-4 sm:p-8">
       <div className="w-full max-w-4xl mx-auto">
-        <div className="bg-accent text-sm p-3 px-5 rounded-md text-foreground flex gap-3 items-center mb-8">
-          <InfoIcon size="16" strokeWidth={2} />
-          Aquí puedes subir nuevos iconos a la colección
-        </div>
-
         <div className="bg-card text-card-foreground rounded-lg p-6 shadow-lg border">
           <h2 className="text-2xl font-bold mb-6">Subir Nuevo Icono</h2>
 

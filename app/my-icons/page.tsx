@@ -16,7 +16,7 @@ export default async function MyIconsPage() {
   return (
     <div className="container mx-auto py-10">
       <div className="max-w-5xl mx-auto">
-        <h1 className="text-3xl font-bold mb-6">Mis Iconos</h1>
+        <h1 className="text-3xl font-bold mb-6">My icons</h1>
         <MyIconsList userId={user.id} />
       </div>
     </div>

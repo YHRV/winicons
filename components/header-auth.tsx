@@ -62,7 +62,7 @@ export default async function AuthButton() {
         <DropdownMenuTrigger asChild>
           <Button variant="outline" size="icon" className="rounded-full">
             <User className="h-5 w-5" />
-            <span className="sr-only">Menú de usuario</span>
+            <span className="sr-only">User menu</span>
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
@@ -75,13 +75,13 @@ export default async function AuthButton() {
           <DropdownMenuItem asChild>
             <Link href="/profile" className="flex items-center cursor-pointer">
               <Settings className="mr-2 h-4 w-4" />
-              <span>Configurar perfil</span>
+              <span>Profile</span>
             </Link>
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
             <Link href="/my-icons" className="flex items-center cursor-pointer">
               <Image className="mr-2 h-4 w-4" />
-              <span>Mis iconos</span>
+              <span>My icons</span>
             </Link>
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
@@ -90,7 +90,7 @@ export default async function AuthButton() {
               className="flex items-center cursor-pointer"
             >
               <Upload className="mr-2 h-4 w-4" />
-              <span>Subir icono</span>
+              <span>Upload icon</span>
             </Link>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
@@ -98,7 +98,7 @@ export default async function AuthButton() {
             <form action={signOutAction} className="w-full">
               <button className="flex w-full items-center cursor-pointer">
                 <LogOut className="mr-2 h-4 w-4" />
-                <span>Cerrar sesión</span>
+                <span>Logout</span>
               </button>
             </form>
           </DropdownMenuItem>

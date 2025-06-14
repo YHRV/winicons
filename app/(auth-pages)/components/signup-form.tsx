@@ -61,11 +61,11 @@ export function SignUpForm({ message }: { message: any }) {
           title="La contraseña debe tener al menos 8 caracteres, una mayúscula y un número"
         />
         <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-          La contraseña debe tener:
+          The password must have:
           <ul className="list-disc list-inside ml-2">
-            <li>Al menos 8 caracteres</li>
-            <li>Al menos una mayúscula</li>
-            <li>Al menos un número</li>
+            <li>At least 8 characters</li>
+            <li>At least one uppercase letter</li>
+            <li>At least one number</li>
           </ul>
         </div>
         <SubmitButton formAction={signUpAction} pendingText="Signing up...">
